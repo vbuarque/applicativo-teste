@@ -1,24 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import {DefaultButton, DefaultInput} from './src/components/';
+import React, { useState, useEffect } from "react";
+import { NativeBaseProvider } from 'native-base';
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold
+} from '@expo-google-fonts/poppins';
+
+import { Loading } from './src/components';
+import Routes from "./src/routes";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <DefaultInput placeholder='Email' marginBottom={16}/>
-      <DefaultInput placeholder='Senha' marginBottom={16} secureTextEntry/>
-      <DefaultButton title="Teste" />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [isLoading, setIsLoading] = useState(true);
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_700Bold
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
+  return (
+    <NativeBaseProvider>
+        {isLoading || !fontsLoaded ? <Loading /> : <Routes />}
+    </NativeBaseProvider>
+  );
+};

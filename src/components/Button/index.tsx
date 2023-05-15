@@ -1,31 +1,25 @@
-import React from 'react';
-import { TouchableOpacity, TouchableOpacityProps, Text } from 'react-native';
+import { Button as ButtonNativeBase, IButtonProps, Heading } from 'native-base';
 
-import styles from './styles';
-
-interface ButtonProps extends TouchableOpacityProps {
-    title: string;
-    backgroundColor?: string;
-    textColor?: string;
-    marginTop?: number;
-    marginBottom?: number;
+type Props = IButtonProps &{
+    title?: string;
 }
 
-export default function DefaultButton({ title, backgroundColor, textColor, marginTop, marginBottom, ...rest }: ButtonProps) {
-    return (
-        <TouchableOpacity
-            style={
-                [
-                    styles.button,
-                    { backgroundColor: backgroundColor ? backgroundColor : '#00688C' },
-                    { marginTop: marginTop ? marginTop : 0 },
-                    { marginBottom: marginBottom ? marginBottom : 0 }
-                ]
-            }
-            {...rest}>
-            <Text style={[styles.titleText, { color: textColor ? textColor : '#f8f8f8' }]}>
-                {title}
-            </Text>
-        </TouchableOpacity>
-    )
+export default function DefaultButton({ title, ...rest }: Props) {
+  return (
+    <ButtonNativeBase 
+    bg="#00688C"
+    h={12}
+    marginTop={30}
+    fontSize="lg"
+    rounded="sm"
+    _pressed={{
+        bg: "blueGray.700"
+    }}
+    { ...rest }
+    >
+        <Heading color="white" fontSize="lg">
+            {title}
+        </Heading>
+    </ButtonNativeBase>
+  );
 }
